@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Coin.generated.h"
+#include "RevolverActor.generated.h"
 
 UCLASS()
-class REVOLVER_API ACoin : public AActor
+class REVOLVER_API ARevolverActor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACoin();
+	ARevolverActor();
 
 protected:
 	// Called when the game starts or when spawned
