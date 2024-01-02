@@ -4,23 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "EnemyActor.generated.h"
+#include "FirstPersonActor.generated.h"
 
-UCLASS(ClassGroup=(Custom), meta = (BlueprintSpawnableComponent), Blueprintable)
-class REVOLVER_API AEnemyActor : public ACharacter
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), Blueprintable)
+class REVOLVER_API AFirstPersonActor : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AEnemyActor();
+	AFirstPersonActor();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Blueprintable)
-		AActor* EnemyRef;
 
 public:	
 	// Called every frame

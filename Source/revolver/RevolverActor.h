@@ -4,12 +4,13 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "FirstPersonActor.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "RevolverActor.generated.h"
 
 
-UCLASS(ClassGroup = (custom), meta=(BlueprintSpawnableComponent), Blueprintable)
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class REVOLVER_API ARevolverActor : public AActor
 {
 	GENERATED_BODY()
@@ -27,14 +28,16 @@ protected:
 	UPROPERTY(EditAnywhere, Blueprintable)
 		FVector m_ProjectileOffset;
 
+	UPROPERTY(EditAnywhere)
+		AActor* RevolverRef;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-		void Shoot();
-
-	UFUNCTION(BlueprintCallable)
 		bool LineTraceMethod(FHitResult& OutHit);
 
+	UFUNCTION(BlueprintCallable)
+		float ApplyDamageOnHitMethod(AActor* DamagedActor, float Damage, FHitResult& Outhit);
 };

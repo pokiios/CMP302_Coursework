@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "CoinActor.h"
 
 // Sets default values
@@ -32,3 +31,10 @@ void ACoinActor::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
+void ACoinActor::MoveCoinToEnemy(USkeletalMeshComponent* SkeletalMesh, FVector Impulse)
+{
+	FVector CoinVel = GetVelocity();
+	FVector CoinImpulse = CoinVel * CoinImpulse;
+
+	//UPrimitiveComponent::AddImpulse(CoinImpulse);
+}
