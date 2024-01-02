@@ -3,18 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "CoinActor.generated.h"
+#include "GameFramework/Character.h"
+#include "EnemyActor.generated.h"
 
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
-class REVOLVER_API ACoinActor : public APawn
+UCLASS(ClassGroup = (custom), meta = (BlueprintSpawnableComponent), Blueprintable)
+class REVOLVER_API AEnemyActor : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	ACoinActor();
-
+	// Sets default values for this character's properties
+	AEnemyActor();
 
 protected:
 	// Called when the game starts or when spawned

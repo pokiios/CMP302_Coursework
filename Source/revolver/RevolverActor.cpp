@@ -4,6 +4,7 @@
 #include "RevolverActor.h"
 
 // Sets default values
+
 ARevolverActor::ARevolverActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -25,3 +26,17 @@ void ARevolverActor::Tick(float DeltaTime)
 
 }
 
+bool ARevolverActor::LineTraceMethod(FHitResult& OutHit)
+{
+	APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
+
+	FVector ForwardVector = OurCamera->GetActorForwardVector();
+	FVector StartPoint = OurCamera->GetCameraLocation();
+	FVector EndPoint = StartPoint + (ForwardVector * m_LinetraceDist);
+
+	FCollisionQueryParams Parameters;
+
+	TArray<AActor*> ActorsToIgnore;
+
+	return UKismetSystemLibrary::LineTraceSingle(this, StartPoint, EndPoint, UEngineTypes::ConvertToTraceType(ECC_Visibility), false, ActorsToIgnore, EDrawDebugTrace::None, OutHit, true);
+}
