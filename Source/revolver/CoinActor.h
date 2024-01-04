@@ -3,7 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "EnemyActor.h"
+#include "Math/Vector.h"
 #include "CoinActor.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
@@ -21,10 +26,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Blueprintable)
-		float m_CoinHealth;
-
-	UPROPERTY(EditAnywhere, Blueprintable)
-		int m_ClosestIndex;
+		float m_ClosestDistance;
 
 	UPROPERTY(EditAnywhere, Blueprintable)
 		float m_CoinDamage;
@@ -33,19 +35,10 @@ protected:
 		float m_DamageMultiplier;
 
 	UPROPERTY(EditAnywhere, Blueprintable)
-		FRotator m_CurrRotation;
+		float m_Rotation;
 
-	UPROPERTY(EditAnywhere, Blueprintable)
-		FRotator m_TargetRotation;
-
-	UPROPERTY(EditAnywhere, Blueprintable)
-		FVector RotationVec;
-
-	UPROPERTY(EditAnywhere, Blueprintable)
-		TArray<AActor*> m_OutActors;
-
-	UPROPERTY(EditAnywhere, BluePrintable)
-		AActor* CoinRef;
+	UPROPERTY(VisibileAnywhere, Category = Movement)
+		UProjectileMovementComponent* ProjectileMovement;
 
 public:	
 	// Called every frame
@@ -55,5 +48,17 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable)
-		void MoveCoinToEnemy(USkeletalMeshComponent* SkeletalMesh, FVector Impulse);
+		AActor* ClosestEnemy();
+
+	UFUNCTION(BlueprintCallable)
+		void SetCoinDamage();
+
+	UFUNCTION(BlueprintCallable)
+		void CoinHoming(AActor* CurrHomingTarget);
+
+	UFUNCTION(BlueprintCallable)
+		void CoinRotation(float deltaTime);
+
+	UFUNCTION(BlueprintCallable)
+		void ApplyDamage(AActor* DamagedActor);
 };

@@ -27,7 +27,7 @@ void ARevolverActor::Tick(float DeltaTime)
 
 bool ARevolverActor::LineTraceMethod(FHitResult& OutHit)
 {
-	APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(GetWorld()->, 0);
+	APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 
 	FVector ForwardVector = OurCamera->GetActorForwardVector();
 	FVector StartPoint = OurCamera->GetCameraLocation();
@@ -40,8 +40,12 @@ bool ARevolverActor::LineTraceMethod(FHitResult& OutHit)
 	return UKismetSystemLibrary::LineTraceSingle(this, StartPoint, EndPoint, UEngineTypes::ConvertToTraceType(ECC_Visibility), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, OutHit, true);
 }
 
-float ApplyDamageOnHitMethod(AActor* DamagedActor, float Damage, FHitResult& OutHit)
+void ARevolverActor::ApplyBulletDamage(FVector ImpactPoint, AActor* DamagedActor)
 {
+	UGameplayStatics::ApplyDamage(DamagedActor, m_RevolverDamage, NULL, this);
+}
 
-	return Damage;
+void ARevolverActor::AttachRevolver(AActor* FPCharRef)
+{
+	//AttachToComponent()
 }

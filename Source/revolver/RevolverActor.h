@@ -26,10 +26,13 @@ protected:
 		float m_LinetraceDist;
 
 	UPROPERTY(EditAnywhere, Blueprintable)
-		FVector m_ProjectileOffset;
+		float m_RevolverDamage;
+
+	UPROPERTY(EditAnywhere, Blueprintable)
+		AActor* m_FPCharRef;
 
 	UPROPERTY(EditAnywhere)
-		AActor* RevolverRef;
+		AActor* m_RevolverRef;
 
 public:	
 	// Called every frame
@@ -39,5 +42,9 @@ public:
 		bool LineTraceMethod(FHitResult& OutHit);
 
 	UFUNCTION(BlueprintCallable)
-		float ApplyDamageOnHitMethod(AActor* DamagedActor, float Damage, FHitResult& Outhit);
+		void AttachRevolver(AActor* FPCharRef);
+
+	UFUNCTION(BlueprintCallable)
+		void ApplyBulletDamage(FVector ImpactPoint, AActor* DamagedActor);
+
 };
