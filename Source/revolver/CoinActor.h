@@ -5,8 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Math/Vector.h"
+#include "EnemyActor.h"
 #include "CoinActor.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
@@ -41,6 +43,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		USceneComponent* m_HomingTargetComponent;
 
+	UPROPERTY(EditAnywhere, Blueprintable)
+		AActor* m_CurrHomingTarget;
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -55,11 +61,9 @@ public:
 		void SetCoinDamageMethod();
 
 	UFUNCTION(BlueprintCallable)
-		void HomingCoinMethod(AActor* CurrHomingTarget);
+		void HomingCoinMethod(USceneComponent* CurrHomingTarget);
 
 	UFUNCTION(BlueprintCallable)
 		void CoinRotationMethod(float deltaTime);
 
-	/*UFUNCTION(BlueprintCallable)
-		void ApplyCoinDamage(AActor* DamagedActor);*/
 };

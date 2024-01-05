@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 #include "EnemyActor.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta = (BlueprintSpawnableComponent), Blueprintable)
@@ -31,5 +32,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintCallable)
+		void EnemyDamage(float Damage);
 
 };

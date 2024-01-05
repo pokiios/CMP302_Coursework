@@ -7,7 +7,10 @@ ACoinActor::ACoinActor()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	m_DamageMultiplier = 2.f;
+	m_ProjectileMovement->InitialSpeed = 3000.f;
+	m_ProjectileMovement->MaxSpeed = 3500.f;
+	m_ProjectileMovement->Velocity = { 1.f, 0.f, 0.f };
 }
 
 // Called when the game starts or when spawned
@@ -21,7 +24,7 @@ void ACoinActor::BeginPlay()
 void ACoinActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	CoinRotation(DeltaTime);
+	CoinRotationMethod(DeltaTime);
 
 }
 
@@ -34,26 +37,25 @@ void ACoinActor::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 USceneComponent* ACoinActor::ClosestEnemyMethod()
 {
-	TSubclassOf<AActor> ClassToFind;
 	TArray<AActor*> FoundActors;
 
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemyActor::StaticClass(), FoundActors);
 
 	for (int i = 0; i < FoundActors.Num(); i++)
 	{
 		FVector coinLoc = this->GetActorLocation();
 		FVector EnemyLoc = FoundActors[i]->GetActorLocation();
 
-		FVector vecSubtract = coinLock - EnemyLoc;
-		float vecLength = FVector::Length(vecSubtract);
+		float Dist = FVector::Distance(coinLoc, EnemyLoc);
 
-		if (vecLength < m_ClosestDistance)
+		if (Dist < m_ClosestDistance)
 		{
-			m_ClosestDistance = vecLength;
-			AActor* m_CurrHomingTarget = FoundActors[i];
+			m_ClosestDistance = Dist;
+			m_CurrHomingTarget = FoundActors[i];
 		}
 	}
-	m_HomingTargetComponent = m_CurrHomingTarget->FindComponentByClass<USceneComponent*>;
+	m_HomingTargetComponent = m_CurrHomingTarget->GetComponentByClass<USceneComponent>();
 
 	return m_HomingTargetComponent;
 }
@@ -74,9 +76,9 @@ void ACoinActor::CoinRotationMethod(float DeltaTime)
 	this->AddActorLocalRotation(m_newRotator, false);
 }
 
-void ACoinActor::HomingCoinMethod(AActor* CurrHomingTarget)
+void ACoinActor::HomingCoinMethod(USceneComponent* CurrHomingTarget)
 {
-	//ProjectileMovement->HomingTargetComponent = 
-	ProjectileMovement->bIsHomingProjectile = true;
-	ProjectileMovement->HomingAccelerationMagnitude = 9999999999999999999.f;
+	m_ProjectileMovement->HomingTargetComponent = CurrHomingTarget;
+	m_ProjectileMovement->bIsHomingProjectile = true;
+	m_ProjectileMovement->HomingAccelerationMagnitude = 99999999999999.f;
 }
