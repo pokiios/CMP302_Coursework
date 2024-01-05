@@ -6,8 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "Particles/ParticleSystemComponent.h"
-#include "EnemyActor.h"
 #include "Math/Vector.h"
 #include "CoinActor.generated.h"
 
@@ -37,8 +35,11 @@ protected:
 	UPROPERTY(EditAnywhere, Blueprintable)
 		float m_Rotation;
 
-	UPROPERTY(VisibileAnywhere, Category = Movement)
-		UProjectileMovementComponent* ProjectileMovement;
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
+		UProjectileMovementComponent* m_ProjectileMovement;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		USceneComponent* m_HomingTargetComponent;
 
 public:	
 	// Called every frame
@@ -48,17 +49,17 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable)
-		AActor* ClosestEnemy();
+		USceneComponent* ClosestEnemyMethod();
 
 	UFUNCTION(BlueprintCallable)
-		void SetCoinDamage();
+		void SetCoinDamageMethod();
 
 	UFUNCTION(BlueprintCallable)
-		void CoinHoming(AActor* CurrHomingTarget);
+		void HomingCoinMethod(AActor* CurrHomingTarget);
 
 	UFUNCTION(BlueprintCallable)
-		void CoinRotation(float deltaTime);
+		void CoinRotationMethod(float deltaTime);
 
-	UFUNCTION(BlueprintCallable)
-		void ApplyDamage(AActor* DamagedActor);
+	/*UFUNCTION(BlueprintCallable)
+		void ApplyCoinDamage(AActor* DamagedActor);*/
 };

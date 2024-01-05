@@ -20,7 +20,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Blueprintable)
-		AActor* EnemyRef;
+		float m_EnemyHealth;
+
+	UPROPERTY(EditAnywhere, Blueprintable)
+		float m_RoamRadius;
 
 public:	
 	// Called every frame

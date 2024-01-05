@@ -10,6 +10,10 @@ ARevolverActor::ARevolverActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	m_LinetraceDist = 5000.f;
+	m_RevolverDamage = 1.f;
+	//m_FPCharRef = NULL;
+
 }
 
 // Called when the game starts or when spawned
@@ -38,14 +42,4 @@ bool ARevolverActor::LineTraceMethod(FHitResult& OutHit)
 	TArray<AActor*> ActorsToIgnore;
 
 	return UKismetSystemLibrary::LineTraceSingle(this, StartPoint, EndPoint, UEngineTypes::ConvertToTraceType(ECC_Visibility), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, OutHit, true);
-}
-
-void ARevolverActor::ApplyBulletDamage(FVector ImpactPoint, AActor* DamagedActor)
-{
-	UGameplayStatics::ApplyDamage(DamagedActor, m_RevolverDamage, NULL, this);
-}
-
-void ARevolverActor::AttachRevolver(AActor* FPCharRef)
-{
-	//AttachToComponent()
 }

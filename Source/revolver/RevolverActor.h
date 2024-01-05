@@ -22,17 +22,15 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 	UPROPERTY(EditAnywhere, Blueprintable)
 		float m_LinetraceDist;
 
 	UPROPERTY(EditAnywhere, Blueprintable)
 		float m_RevolverDamage;
 
-	UPROPERTY(EditAnywhere, Blueprintable)
-		AActor* m_FPCharRef;
-
-	UPROPERTY(EditAnywhere)
-		AActor* m_RevolverRef;
+	//UPROPERTY(EditAnywhere, Blueprintable)
+		//AActor* m_FPCharRef;
 
 public:	
 	// Called every frame
@@ -40,11 +38,4 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		bool LineTraceMethod(FHitResult& OutHit);
-
-	UFUNCTION(BlueprintCallable)
-		void AttachRevolver(AActor* FPCharRef);
-
-	UFUNCTION(BlueprintCallable)
-		void ApplyBulletDamage(FVector ImpactPoint, AActor* DamagedActor);
-
 };

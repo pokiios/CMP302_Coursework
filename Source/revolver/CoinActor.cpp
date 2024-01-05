@@ -32,37 +32,38 @@ void ACoinActor::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
-
-AActor* ACoinActor::ClosestEnemy()
+USceneComponent* ACoinActor::ClosestEnemyMethod()
 {
-	// Array Variables
-	TArray<AActor*> OutActor;
-	TSubclassOf<AActor> EnemyClass;
+	TSubclassOf<AActor> ClassToFind;
+	TArray<AActor*> FoundActors;
 
-	m_ClosestDistance = 9999999.f;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
 
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), EnemyClass, OutActor);
-	for (int i = 0; i < OutActor.Num(); i++)
+	for (int i = 0; i < FoundActors.Num(); i++)
 	{
-		FVector m_CoinLocation = this->GetActorLocation();
-		FVector m_EnemyLocation = OutActor[i]->GetActorLocation();
+		FVector coinLoc = this->GetActorLocation();
+		FVector EnemyLoc = FoundActors[i]->GetActorLocation();
 
-		FVector m_EnemyDistance = m_CoinLocation - m_EnemyLocation;
-		float m_EnemyDistanceFloat = FVector::Length(m_EnemyDistance);
+		FVector vecSubtract = coinLock - EnemyLoc;
+		float vecLength = FVector::Length(vecSubtract);
 
-		if (m_EnemyDistanceFloat < m_ClosestDistance)
+		if (vecLength < m_ClosestDistance)
 		{
-			m_ClosestDistance = m_EnemyDistanceFloat;
+			m_ClosestDistance = vecLength;
+			AActor* m_CurrHomingTarget = FoundActors[i];
 		}
 	}
+	m_HomingTargetComponent = m_CurrHomingTarget->FindComponentByClass<USceneComponent*>;
+
+	return m_HomingTargetComponent;
 }
 
-void ACoinActor::SetCoinDamage()
+void ACoinActor::SetCoinDamageMethod()
 {
 	m_CoinDamage *= m_DamageMultiplier;
 }
 
-void ACoinActor::CoinRotation(float DeltaTime)
+void ACoinActor::CoinRotationMethod(float DeltaTime)
 {
 	float m_CurrRotation = DeltaTime * m_Rotation;
 	FRotator m_newRotator = FRotator::ZeroRotator;
@@ -73,19 +74,9 @@ void ACoinActor::CoinRotation(float DeltaTime)
 	this->AddActorLocalRotation(m_newRotator, false);
 }
 
-void ACoinActor::CoinHoming(AActor* CurrHomingTarget)
+void ACoinActor::HomingCoinMethod(AActor* CurrHomingTarget)
 {
 	//ProjectileMovement->HomingTargetComponent = 
 	ProjectileMovement->bIsHomingProjectile = true;
 	ProjectileMovement->HomingAccelerationMagnitude = 9999999999999999999.f;
-}
-
-void ACoinActor::ApplyCoinDamage(AActor* DamagedActor)
-{
-	if (ProjectileMovement->bIsHomingProjectile == true && DamagedActor == )
-	{
-		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), )
-		UGameplayStatics::ApplyDamage(DamagedActor, m_CoinDamage, NULL, this, NULL);
-		Destroy(this);
-	}
 }
